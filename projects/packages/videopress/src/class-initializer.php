@@ -8,6 +8,7 @@
 namespace Automattic\Jetpack\VideoPress;
 
 use Automattic\Jetpack\Assets;
+use WP_REST_Request;
 
 /**
  * Initialized the VideoPress package
@@ -192,6 +193,14 @@ class Initializer {
 	 * @return string                    Block markup.
 	 */
 	public static function render_videopress_video_block( $block_attributes, $content ) {
+		if ( ! jetpack_is_frontend() ) {
+			return self::render_for_email( $block_attributes, $content );
+		}
+
+		return self::render_for_frontend( $block_attributes, $content );
+	}
+
+	private static function render_for_frontend( $block_attributes, $content ) {
 		global $wp_embed;
 
 		// CSS classes
@@ -317,6 +326,22 @@ class Initializer {
 			$video_wrapper,
 			$figcaption
 		);
+	}
+
+	private static function render_for_email( $block_attributes, $content ) {
+		$request  = new WP_REST_Request( 'GET', '/wpcom/v2/videopress/' . $block_attributes['guid'] . '/poster' );
+		$response = rest_do_request( $request );
+
+		print_r( $block_attributes );
+
+		if ( $response->is_error() ) {
+			return '';
+		}
+
+		$data   = $response->get_data()['data'];
+		$poster = $data['poster'];
+
+		return sprintf( '<figure><img src="%s" alt="%s"/></figure>', $poster, $block_attributes['caption'] );
 	}
 
 	/**
