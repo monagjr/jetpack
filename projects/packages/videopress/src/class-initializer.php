@@ -194,12 +194,19 @@ class Initializer {
 	 */
 	public static function render_videopress_video_block( $block_attributes, $content ) {
 		if ( ! jetpack_is_frontend() ) {
-			return self::render_for_email( $block_attributes, $content );
+			return self::render_for_email( $block_attributes );
 		}
 
 		return self::render_for_frontend( $block_attributes, $content );
 	}
 
+	/**
+	 * VideoPress video block render method for frontend
+	 *
+	 * @param array  $block_attributes - Block attributes.
+	 * @param string $content          - Current block markup.
+	 * @return string                    Block markup.
+	 */
 	private static function render_for_frontend( $block_attributes, $content ) {
 		global $wp_embed;
 
@@ -328,11 +335,15 @@ class Initializer {
 		);
 	}
 
-	private static function render_for_email( $block_attributes, $content ) {
+	/**
+	 * VideoPress video block render method for emails
+	 *
+	 * @param array $block_attributes - Block attributes.
+	 * @return string                    Block markup.
+	 */
+	private static function render_for_email( $block_attributes ) {
 		$request  = new WP_REST_Request( 'GET', '/wpcom/v2/videopress/' . $block_attributes['guid'] . '/poster' );
 		$response = rest_do_request( $request );
-
-		print_r( $block_attributes );
 
 		if ( $response->is_error() ) {
 			return '';
