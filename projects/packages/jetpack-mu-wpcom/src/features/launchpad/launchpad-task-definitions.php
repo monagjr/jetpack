@@ -386,8 +386,9 @@ function wpcom_launchpad_get_task_definitions() {
 				// that are not in the Customer Home page. We should find a better way to handle this.
 				return '/domains/add/' . $data['site_slug_encoded'] . '?from=my-home';
 			},
-			'body_callback'        => 'wpcom_launchpad_domain_customize_body',
 			'body_context'         => array( 'launchpad-navigator' ),
+			'actions_callback'     => 'wpcom_launchpad_domain_customize_actions',
+			'content_callback'     => 'wpcom_launchpad_domain_customize_content',
 		),
 
 		'share_site'                      => array(
@@ -1851,31 +1852,30 @@ function wpcom_launchpad_add_task_component( $type, $content, $options = array()
 }
 
 /**
- * Adds a text task component.
- *
- * @param string $text The text content of the component.
- * @return array The text task component.
- */
-function wpcom_launchpad_task_component_text( $text ) {
-	return wpcom_launchpad_add_task_component( 'text', $text );
-}
-
-/**
- * Adds a link task component.
+ * Adds a link task action.
  *
  * @param string $label The label (text) of the link.
  * @param string $href  The URL of the link.
  * @return array The link task component.
  */
-function wpcom_launchpad_task_component_link( $label, $href ) {
+function wpcom_launchpad_task_action_link( $label, $href ) {
 	return wpcom_launchpad_add_task_component( 'link', $label, array( 'href' => $href ) );
 }
 
 /**
- * Adds the a body to the domain customize task.
+ * Adds the actions to the domain customize task.
  *
- * @return array The body of the domain customize task.
+ * @return array The array with actions of the domain customize task.
  */
-function wpcom_launchpad_domain_customize_body() {
-	return apply_filters( 'wpcom_launchpad_domain_customize_body', null );
+function wpcom_launchpad_domain_customize_actions() {
+	return apply_filters( 'wpcom_launchpad_domain_customize_actions', null );
+}
+
+/**
+ * Adds the content to the domain customize task.
+ *
+ * @return string The content of the domain customize task.
+ */
+function wpcom_launchpad_domain_customize_content() {
+	return apply_filters( 'wpcom_launchpad_domain_customize_content', null );
 }

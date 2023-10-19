@@ -349,8 +349,8 @@ class Launchpad_Task_Lists {
 		$built_task['completed']    = $this->is_task_complete( $task );
 		$built_task['disabled']     = $this->is_task_disabled( $task );
 		$built_task['subtitle']     = $this->load_subtitle( $task );
-		$built_task['body']         = $this->load_value_from_callback( $task, 'body_callback' );
-		$built_task['body_context'] = isset( $task['body_context'] ) ? $task['body_context'] : array();
+		$built_task['content']      = $this->load_value_from_callback( $task, 'content_callback' );
+		$built_task['actions']      = $this->load_value_from_callback( $task, 'actions_callback' );
 		$built_task['badge_text']   = $this->load_value_from_callback( $task, 'badge_text_callback' );
 		$built_task['isLaunchTask'] = isset( $task['isLaunchTask'] ) ? $task['isLaunchTask'] : false;
 		$extra_data                 = $this->load_extra_data( $task );
@@ -370,6 +370,10 @@ class Launchpad_Task_Lists {
 			if ( ! empty( $calypso_path ) ) {
 				$built_task['calypso_path'] = $calypso_path;
 			}
+		}
+
+		if ( isset( $task['body_context'] ) && ! empty( $task['body_context'] ) ) {
+			$built_task['body_context'] = $task['body_context'];
 		}
 
 		return $built_task;
