@@ -3,7 +3,7 @@ import { __, _x } from '@wordpress/i18n';
 import { currencyDollar } from '@wordpress/icons';
 import { getIconColor } from '../../shared/block-icons';
 import { settings as donationSettings } from '../donations';
-import { settings as premiumContentSettings } from '../premium-content';
+import premiumContentMetadata from '../premium-content/block.json';
 import { settings as recurringPaymentSettings } from '../recurring-payments';
 import edit from './edit';
 
@@ -23,8 +23,8 @@ export const settings = {
 			...donationSettings.keywords,
 			recurringPaymentSettings.title,
 			...recurringPaymentSettings.keywords,
-			premiumContentSettings.title,
-			...premiumContentSettings.keywords,
+			premiumContentMetadata.title,
+			...premiumContentMetadata.keywords,
 			_x( 'paid', 'block search term', 'jetpack' ),
 			_x( 'pay', 'block search term', 'jetpack' ),
 			_x( 'money', 'block search term', 'jetpack' ),
